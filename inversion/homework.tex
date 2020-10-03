@@ -72,7 +72,7 @@
     \ifnum#1>0
         \setcounter{homeworkProblemCounter}{#1}
     \fi
-    \section{Problem \arabic{homeworkProblemCounter}}
+    \subsection{Exercise \arabic{homeworkProblemCounter}}
     \setcounter{partCounter}{1}
     \enterProblemHeader{homeworkProblemCounter}
 }{
@@ -95,24 +95,25 @@
 \newcommand{\hmwkClassInstructor}{Professor H. Yao \& H. Zhang}
 \newcommand{\hmwkAuthorName}{\textbf{Jintao Li}}
 \newcommand{\hmwkAuthorID}{\textbf{SA20007037}}
+\newcommand{\hmwkAuthoremail}{\textbf{E-mail: lijintao@mail.ustc.edu.cn}}
 
 %
 % Title Page
 %
 
-\title{
-    \vspace{2in}
-    \textbf{\hmwkClass:\ \hmwkTitle}\\
-    \normalsize\vspace{0.2in}\large{\hmwkDueDate}\\
-    \vspace{0.2in}\large{\textit{\hmwkClassInstructor}}
-    \vspace{3in}
-}
+% \title{
+%     \vspace{2in}
+%     \textbf{\hmwkClass:\ \hmwkTitle}\\
+%     \normalsize\vspace{0.2in}\large{\hmwkDueDate}\\
+%     \vspace{0.2in}\large{\textit{\hmwkClassInstructor}}
+%     \vspace{3in}
+% }
 
-\author{\hmwkAuthorName \\
-\hmwkAuthorID}
-\date{}
+% \author{\hmwkAuthorName \\
+% \hmwkAuthorID}
+% \date{}
 
-\renewcommand{\part}[1]{\textbf{\large Part \Alph{partCounter}}\stepcounter{partCounter}\\}
+\renewcommand{\part}[1]{\textbf{(\alph{partCounter})\ }\stepcounter{partCounter}}
 
 %
 % Various Helper Commands
@@ -131,7 +132,7 @@
 \newcommand{\dx}{\mathrm{d}x}
 
 % Alias for the Solution section header
-\newcommand{\solution}{\textbf{\large Solution}}
+\newcommand{\solution}{\textbf{\large \\ Solution: \\}}
 
 % Probability commands: Expectation, Variance, Covariance, Bias
 \newcommand{\E}{\mathrm{E}}
@@ -145,14 +146,15 @@
 
 \begin{center}
 
-\textcolor{ustcblue}{\includegraphics[width=0.15\textwidth]{./ustc_logo_fig.pdf} \\ [1cm]}
+\textcolor{ustcblue}{\includegraphics[width=0.25\textwidth]{./ustc_logo_fig.pdf} \\ [1cm]}
 % Title
-{ \huge \bfseries \hmwkClass\ \hmwkTitle}\\[0.4cm]
+{ \Huge \bfseries \hmwkClass\ \hmwkTitle}\\[1cm]
 
-\hmwkClassInstructor
+\large \textbf{\hmwkClassInstructor} \\ [5cm]
 
-\hmwkAuthorName \\
-\hmwkAuthorID
+\large \hmwkAuthorName \\ [0.25cm]
+\large \hmwkAuthorID \\ [0.25cm]
+\large \hmwkAuthoremail
 \vfill
 % Bottom of the page
 {\large \today}
@@ -161,27 +163,67 @@
 
 \end{titlepage}
 
+\begin{center}
+\section{Appendix A}
+\end{center}
 
-\begin{homeworkProblem}
-
+\begin{homeworkProblem}[4]
 Let 
 \begin{equation}
 \mathbf{A} = 
 \left[
 \begin{matrix}
-  1 & 2 & 3 & 4 \\
-  2 & 2 & 1 & 3 \\
-  4 & 6 & 7 & 1
+    1 & 2 & 3 & 4 \\
+    2 & 2 & 1 & 3 \\
+    4 & 6 & 7 & 11
 \end{matrix}
 \right]
 \end{equation}
 Find bases for $\mathcal{N}(\mathbf{A})$, $\mathcal{R}(\mathbf{A})$, $\mathcal{N}(\mathbf{A}^T)$, 
 and $\mathcal{R}(\mathbf{A}^T)$. What are the dimensions of the four subspaces?
 
+\solution
+
+To find $\mathcal{N}(\mathbf{A})$, we solve the system of equations $\mathbf{Ax} = 0$,
+\begin{equation}
+    \mathbf{Ax} = \left[\begin{matrix}
+        1 & 2 & 3 & 4 \\
+        2 & 2 & 1 & 3 \\
+        4 & 6 & 7 & 11
+    \end{matrix}\right]\left[\begin{matrix}
+        x_1 \\ x_2 \\ x_3 \\ x_4
+    \end{matrix}\right] = \left[\begin{matrix}
+        0 \\ 0 \\ 0
+    \end{matrix}\right]
+\end{equation}
+Put the system of equations into an argumented matrix,
+\begin{equation}
+\left[\begin{array}{llll|l}
+1 & 2 & 3 & 4 & 0 \\
+2 & 2 & 1 & 3 & 0 \\
+4 & 6 & 7 & 11 & 0
+\end{array}\right]
+\end{equation}
+and then find the reduced row echelon form (\textbf{RREF}), 
+\begin{equation}
+\left[\begin{array}{llll|l}
+1 & 2 & 3 & 4 & 0 \\
+0 & 1 & \frac{5}{2} & \frac{5}{2} & 0 \\
+0 & 0 & 0 & 0 & 0
+\end{array}\right] 
+\end{equation}
+So, we can find that 
+\begin{equation}
+    \mathbf{x} = \left[ \begin{matrix} x_1 \\ x_2 \\ x_3 \\ x_4 \end{matrix} \right] = 
+    \left[ \begin{matrix} {2x_3 + x_4} \\ {-\frac{5}{2}x_3 - \frac{5}{2}x_4} \\ x_3 \\ x_4 \end{matrix} \right] = 
+    \left[ \begin{matrix} 2 \\ -\frac{5}{2} \\ 1 \\ 0 \end{matrix} \right] x_3 + 
+    \left[ \begin{matrix} 1 \\ -\frac{5}{2} \\ 0 \\ 1 \end{matrix} \right] x_4
+\end{equation}
+
+
 \end{homeworkProblem}
 
-\begin{homeworkProblem}
-
+\begin{homeworkProblem}[10]
 Show that if $\mathbf{x} \perp \mathbf{y}$, then 
 \begin{equation}
 \left\| \mathbf{x} + \mathbf{y} \right\|^2_2 = 
@@ -189,9 +231,11 @@ Show that if $\mathbf{x} \perp \mathbf{y}$, then
 \left\| \mathbf{y} \right\|^2_2 .
 \end{equation}
 
+\solution
+
 \end{homeworkProblem}
 
-\begin{homeworkProblem}
+\begin{homeworkProblem}[11]
 In this exercise, we will derive the formula (A.88) for the 1-norm of a matrix.
 Begin with the optimization problem 
 \begin{equation}
@@ -204,24 +248,90 @@ Begin with the optimization problem
 Show that if $\|\mathbf{x}\|_1 = 1$, then
 \begin{equation}
 \|\mathbf{Ax}\|_1 \leq 
-\max_{j} \sum\limits_{i=1}^m \left| \mathbf{A}_{i, j} \right| .
+\max_{j} \sum\limits_{i=1}^m \left| A_{i, j} \right| .
 \end{equation}
 
+\solution
 
 \part
 
 Find a vector $\mathbf{x}$ such that $\|\mathbf{x}\|_1 = 1$, and 
 \begin{equation}
-\|\mathbf{Ax}\|_1 = \max_{j} \sum\limits_{i=1}^m \left| \mathbf{A}_{i, j} \right| .
+\|\mathbf{Ax}\|_1 = \max_{j} \sum\limits_{i=1}^m \left| A_{i, j} \right| .
 \end{equation}
 
+\solution
 
 \part
+
 Conclude that 
 \begin{equation}
 \|\mathbf{A}\|_1 = \max_{\|\mathbf{x}\|_1 = 1} \|\mathbf{Ax}\|_1 = 
-\max_{j} \sum\limits_{i=1}^m \left| \mathbf{A}_{i, j} \right| .
+\max_{j} \sum\limits_{i=1}^m \left| A_{i, j} \right| .
 \end{equation}
+
+\solution
+
+\end{homeworkProblem}
+
+\begin{center}
+    \section{Appdendix B}
+\end{center}
+
+\begin{homeworkProblem}[6]
+Suppose that $\mathbf{X}=(X_1, X_2)^T$ is a vector composed of two random variables with a 
+multivariate normal distribution with expected value $\mu$ and covariance matrix $\mathbf{C}$,
+and that $\mathbf{A}$ is a 2 by 2 matrix. Use properties of expected value and covariance to 
+show that $\mathbf{y} = \mathbf{Ax}$ has expected value $\mathbf{A}\mu$ and covariance $\mathbf{ACA}^T$
+
+\solution
+
+\end{homeworkProblem}
+
+\begin{homeworkProblem}[9]
+Using MATLAB, repeat the following experiment 1000 times. Generate five exponentially distributed 
+random numbers from the exponential probability density function (B.10) with means $\mu = 1/\lambda = 10$. 
+You may find the library function \textbf{exprand} to be useful here. Use (B.74) to calculate a 95\% 
+confidence interval for the 1000 mean determinations. How many times out of the 1000 experiments did 
+the 95\% confidence interval cover the expected value of 10? What happens if you instead generate 50 
+exponentially distributed random numbers at time? Discuss your results. 
+
+\solution
+
+\end{homeworkProblem}
+
+\begin{center}
+    \section{Appendix C}
+\end{center}
+
+\begin{homeworkProblem}[1]
+Let 
+\begin{equation}
+    f(\mathbf{x}) = x_1^2 x_2^2 - 2x_1 x_2^2 + x_2^2 - 3x_1^2 x_2 + 
+    12x_1 x_2 - 12x_2 + 6 .
+\end{equation}
+Find the gradient, $\nabla f(\mathbf{x})$, and Hessian, $\mathbf{H}(f(\mathbf{x}))$. 
+What are the critical points of $f$? Which of these are minima and maxima of $f$?
+
+\solution
+
+\end{homeworkProblem}
+
+\begin{homeworkProblem}[2]
+Find a Taylor's series approximation for $f(\mathbf{x} + \Delta\mathbf{x})$, where
+\begin{equation}
+    f(\mathbf{x}) = e^{-(x_1 + x_2)^2}
+\end{equation}
+is near the point 
+\begin{equation}
+    \mathbf{x} = \left[ 
+        \begin{matrix}
+        2 \\
+        3
+        \end{matrix} \right] .
+\end{equation}
+
+\solution
 
 \end{homeworkProblem}
 
