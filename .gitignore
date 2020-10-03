@@ -16,4 +16,4 @@
 *.blg
 *.bib
 
-.vscode
+.vscode/*
