@@ -31,7 +31,7 @@
 \lhead{\hmwkAuthorName}
 \chead{\hmwkClass\ (\hmwkClassInstructor): \hmwkTitle}
 \rhead{}
-\lfoot{\lastxmark}
+\lfoot{}
 \cfoot{\thepage}
 
 \renewcommand\headrulewidth{0.4pt}
@@ -196,7 +196,7 @@ To find $\mathcal{N}(\mathbf{A})$, we solve the system of equations $\mathbf{Ax}
         0 \\ 0 \\ 0
     \end{matrix}\right]
 \end{equation}
-Put the system of equations into an argumented matrix,
+Put the system of equations into an augmented matrix,
 \begin{equation}
 \left[\begin{array}{llll|l}
 1 & 2 & 3 & 4 & 0 \\
@@ -207,12 +207,12 @@ Put the system of equations into an argumented matrix,
 and then find the reduced row echelon form (\textbf{RREF}), 
 \begin{equation}
 \left[\begin{array}{llll|l}
-1 & 2 & 3 & 4 & 0 \\
+1 & 0 & -2 & -1 & 0 \\
 0 & 1 & \frac{5}{2} & \frac{5}{2} & 0 \\
 0 & 0 & 0 & 0 & 0
 \end{array}\right] 
 \end{equation}
-So, we can find that 
+We can find that 
 \begin{equation}
     \mathbf{x} = \left[ \begin{matrix} x_1 \\ x_2 \\ x_3 \\ x_4 \end{matrix} \right] = 
     \left[ \begin{matrix} {2x_3 + x_4} \\ {-\frac{5}{2}x_3 - \frac{5}{2}x_4} \\ x_3 \\ x_4 \end{matrix} \right] = 
@@ -220,6 +220,98 @@ So, we can find that
     \left[ \begin{matrix} 1 \\ -\frac{5}{2} \\ 0 \\ 1 \end{matrix} \right] x_4
 \end{equation}
 
+So, 
+\begin{equation}
+    \mathcal{N}(\mathbf{A}) = \mathbf{space}\left(
+        \left[\begin{matrix} 2 \\ - \frac{5}{2} \\ 1 \\ 0 \end{matrix}\right]
+        \left[\begin{matrix} 1 \\ - \frac{5}{2} \\ 0 \\ 1
+        \end{matrix}\right]\right) ,
+\end{equation}
+and the dimension of $\mathcal{N}(\mathbf{A})$ is \textbf{2}. \\
+
+To find $\mathcal{R}(\mathbf{A})$, the equations becomes $\mathbf{Ax} = \mathbf{b}$,
+\begin{equation}
+    \mathbf{Ax} = \left[\begin{matrix}
+        1 & 2 & 3 & 4 \\
+        2 & 2 & 1 & 3 \\
+        4 & 6 & 7 & 11
+    \end{matrix}\right]\left[\begin{matrix}
+        x_1 \\ x_2 \\ x_3 \\ x_4
+    \end{matrix}\right] = \left[\begin{matrix}
+        b_1 \\ b_2 \\ b_3
+    \end{matrix}\right] = \mathbf{b} 
+\end{equation}
+
+Because the \textbf{RREF} of \textbf{A} is 
+\begin{equation}
+    \left[\begin{matrix}
+        1 & 0 & -2 & -1 \\
+        0 & 1 & \frac{5}{2} & \frac{5}{2} \\
+        0 & 0 & 0 & 0
+    \end{matrix}\right]
+\end{equation}
+
+We can write $\mathbf{b}$ as a linear combination of the first two columns of $\mathbf{A}$:
+\begin{equation}
+    \mathbf{b} = x_1 \left[ \begin{matrix}
+        1 \\ 2 \\ 4 
+    \end{matrix} \right] + x_2 \left[ \begin{matrix}
+        2 \\ 2 \\ 6
+    \end{matrix} \right] , 
+\end{equation}
+
+i.e. 
+\begin{equation}
+    \mathcal{R}(\mathbf{A}) = \mathbf{space} \left(
+        \left[\begin{matrix} 1 \\ 2 \\ 4 \end{matrix}\right]
+        \left[\begin{matrix} 2 \\ 2 \\ 6 \end{matrix}\right]\right), 
+\end{equation}
+
+and the dimension of $\mathcal{R}(\mathbf{A})$ is \textbf{2}. \\
+
+To find $\mathcal{N}(\mathbf{A}^T)$ and $\mathcal{R}(\mathbf{A}^T)$, we first calculate 
+the \textbf{RREF} of $\mathbf{A}^T$.
+\begin{equation}
+    \mathbf{A}^T = \left[\begin{matrix}
+        1 & 2 & 4 \\
+        2 & 2 & 6 \\
+        3 & 1 & 7 \\
+        4 & 3 & 11
+    \end{matrix}\right] ,
+\end{equation}
+
+\begin{equation}
+    \mathbf{RREF\ of\ A\ is\ } 
+    \left[\begin{matrix}
+        1 & 0 & 2 \\
+        0 & 1 & 1 \\
+        0 & 0 & 0 \\
+        0 & 0 & 0
+    \end{matrix}\right] .
+\end{equation}
+
+So, 
+\begin{equation}
+    \mathbf{x} = \left[\begin{matrix}
+        -2 \\ -1 \\ 0
+    \end{matrix}\right] x_3 ,
+\end{equation}
+
+i.e.
+\begin{equation}
+    \begin{aligned}
+    \mathcal{N}(\mathbf{A}^T) = \mathbf{space}\left(\left[\begin{matrix}
+        -2 \\ -1 \\ 0
+    \end{matrix}\right]\right) , \\ 
+    \mathcal{R}(\mathbf{A}^T) = \mathbf{space}\left(\left[\begin{matrix}
+        1 \\ 2 \\ 3 \\ 4
+    \end{matrix}\right] \left[\begin{matrix}
+        2 \\ 2 \\ 1 \\ 3
+    \end{matrix}\right]\right) .
+    \end{aligned}
+\end{equation}
+And the dimension of $\mathcal{N}(\mathbf{A}^T)$ is \textbf{1}, the dimension of 
+$\mathcal{R}(\mathbf{A}^T)$ is \textbf{2}.
 
 \end{homeworkProblem}
 
@@ -275,7 +367,7 @@ Conclude that
 \end{homeworkProblem}
 
 \begin{center}
-    \section{Appdendix B}
+    \section{Appendix B}
 \end{center}
 
 \begin{homeworkProblem}[6]
