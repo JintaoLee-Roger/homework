@@ -315,6 +315,8 @@ $\mathcal{R}(\mathbf{A}^T)$ is \textbf{2}.
 
 \end{homeworkProblem}
 
+\pagebreak
+
 \begin{homeworkProblem}[10]
 Show that if $\mathbf{x} \perp \mathbf{y}$, then 
 \begin{equation}
@@ -324,6 +326,22 @@ Show that if $\mathbf{x} \perp \mathbf{y}$, then
 \end{equation}
 
 \solution
+
+\begin{equation}
+    \|\mathbf{x} + \mathbf{y}\|_2^2  = \|\mathbf{x}\|_2^2 + \|\mathbf{y}\|_2^2 + 
+    2\|\mathbf{x}\|_2 \|\mathbf{y}\|_2 \cos\theta
+\end{equation}
+Because $\mathbf{x} \perp \mathbf{y}$, so $\cos\theta = 0$, i.e. 
+\begin{equation}
+    \|\mathbf{x} + \mathbf{y}\|_2^2  = \|\mathbf{x}\|_2^2 + \|\mathbf{y}\|_2^2
+\end{equation}
+
+We can consider another solution, 
+\begin{equation}
+    \|\mathbf{x} + \mathbf{y}\|_2^2 = \sum_{i=1}^n (x_i + y_i)^2 = \sum_{i=1}^n x_i^2 + 
+    \sum_{i=1}^n y_i^2 + 2\sum_{i=1}^n x_i^2 y_i^2 = \|\mathbf{x}\|_2^2 + \|\mathbf{y}\|_2^2
+\end{equation}
+because $\mathbf{x}^T\mathbf{y} = \sum_{i=1}^n x_i^2 y_i^2 = 0$ when $\mathbf{x} \perp \mathbf{y}$.
 
 \end{homeworkProblem}
 
@@ -345,6 +363,29 @@ Show that if $\|\mathbf{x}\|_1 = 1$, then
 
 \solution
 
+We define that $\mathbf{A}$ is a $m \times n$ matrix and $\mathbf{x}$ is a $m \times 1$ vector. 
+Then we can write that:
+\begin{equation}
+    \begin{aligned}
+    \|\mathbf{Ax}\|_1 &= \sum_{i = 1}^m \left\vert \mathbf{Ax}\right\vert_i 
+    = \sum_{i=1}^m \left\vert \sum_{j=1}^n A_{i,j}x_j \right\vert \\
+    &\leq \sum_{i=1}^m \sum_{j=1}^n \left\vert A_{i,j}\right\vert \left\vert x_j \right\vert 
+    = \sum_{j=1}^n \left(\sum_{i=1}^m \left\vert A_{i,j} \right\vert \right) \left\vert x_j \right\vert \\
+    &\leq \left(\max_j \sum_{i=1}^m \left\vert A_{i,j} \right\vert \right) \sum_{j=1}^n \left\vert x_j \right\vert 
+    = \max_j \sum_{i=1}^m \left\vert A_{i,j} \right\vert ,
+    \end{aligned}
+\end{equation}
+
+i.e. 
+\begin{equation}
+\|\mathbf{Ax}\|_1 \leq 
+\max_{j} \sum\limits_{i=1}^m \left| A_{i, j} \right| .
+\end{equation}
+
+Note that $\|\mathbf{x}\|_1 = \sum_{j=1}^n |x_j| = 1$. 
+
+\pagebreak
+
 \part
 
 Find a vector $\mathbf{x}$ such that $\|\mathbf{x}\|_1 = 1$, and 
@@ -353,6 +394,25 @@ Find a vector $\mathbf{x}$ such that $\|\mathbf{x}\|_1 = 1$, and
 \end{equation}
 
 \solution
+
+To find such $\mathbf{x}$, we assume that the maximum is arrived in the $k^{th}$ column, i.e. 
+\begin{equation}
+    \max_{j} \sum_{i=1}^m \left\vert A_{i,j} \right\vert  = \sum_{i=1}^m \left\vert A_{i, k}\right\vert .
+\end{equation}
+So, we can write that:
+\begin{equation}
+    \begin{aligned}
+    & \|\mathbf{Ax}\|_1 = \sum_{i=1}^m \left\vert \sum_{j=1}^n A_{i,j}x_j \right\vert = \sum_{i=1}^m \left\vert A_{i, k}\right\vert , \\
+    & \Longrightarrow \left\vert \sum_{j=1}^n A_{i,j}x_j \right\vert = \left\vert A_{i, k}\right\vert , \\
+    & \Longrightarrow x_j = \begin{cases}
+        0& j \neq k \\
+        1& j = k
+    \end{cases} .
+    \end{aligned}
+\end{equation}
+
+Thus, the vector $\mathbf{x} = \left(0, 0, ...., 1, 0, ...., 0\right)^T$, i.e. the $k^{th}$ component 
+of the vector is \textbf{1}, otherwise is \textbf{0}. \\
 
 \part
 
@@ -364,31 +424,83 @@ Conclude that
 
 \solution
 
+\begin{equation}
+    \begin{aligned}
+    & \|\mathbf{A}\|_1 = \|\mathbf{A}\|_1 \|\mathbf{x}\|_1 \geq \|\mathbf{Ax}\|_1, \\
+    & \Longrightarrow \|\mathbf{A}\|_1 = \max_{\|\mathbf{x}\|_1 = 1} \|\mathbf{Ax}\|_1 = 
+    \max_{j} \sum\limits_{i=1}^m \left| A_{i, j} \right| .
+    \end{aligned}
+\end{equation}
+
 \end{homeworkProblem}
+
+\pagebreak
 
 \begin{center}
     \section{Appendix B}
 \end{center}
 
 \begin{homeworkProblem}[6]
-Suppose that $\mathbf{X}=(X_1, X_2)^T$ is a vector composed of two random variables with a 
-multivariate normal distribution with expected value $\mu$ and covariance matrix $\mathbf{C}$,
+Suppose that $\mathbf{x}=(X_1, X_2)^T$ is a vector composed of two random variables with a 
+multivariate normal distribution with expected value $\mathbf{\mu}$ and covariance matrix $\mathbf{C}$,
 and that $\mathbf{A}$ is a 2 by 2 matrix. Use properties of expected value and covariance to 
-show that $\mathbf{y} = \mathbf{Ax}$ has expected value $\mathbf{A}\mu$ and covariance $\mathbf{ACA}^T$
+show that $\mathbf{y} = \mathbf{Ax}$ has expected value $\mathbf{A\mu}$ and covariance $\mathbf{ACA}^T$
 
 \solution
 
+Accroding to the question, we know that the JDF of this multivariate normal distribution (the dimension is 2) is:
+\begin{equation}
+    f(\mathbf{x}) = \left\vert 2\pi\mathbf{C} \right\vert^{-\frac{1}{2}} 
+    \mathbf{exp}\left(-\frac{1}{2}(\mathbf{x}-\mathbf{\mu})^T \mathbf{C}^{-1} (\mathbf{x}-\mathbf{\mu}) \right) ,
+\end{equation}
+and we can simply define $D = \left\vert 2\pi\mathbf{C} \right\vert^{-\frac{1}{2}} $ as $D$ is a constant.
+Thus, 
+\begin{equation}
+    f(\mathbf{x}) = D \, \mathbf{exp}\left(-\frac{1}{2}(\mathbf{x}-\mathbf{\mu})^T \mathbf{C}^{-1} (\mathbf{x}-\mathbf{\mu}) \right) .
+\end{equation}
+
+So, 
+\begin{equation}
+    E[\mathbf{y}] = E[\mathbf{Ax}] = \int_{-\infty}^{\infty} \mathbf{Ax}f(\mathbf{x}) \,d\mathbf{x}
+    = \mathbf{A} \int_{-\infty}^{\infty} \mathbf{x}f(\mathbf{x}) \,d\mathbf{x} = \mathbf{A} E[\mathbf{x}]
+    = \mathbf{A\mu} .
+\end{equation}
+
+To covariance matrix of $\mathbf{y}$, we consider that:
+\begin{equation}
+    \mathbf{y} = \mathbf{Ax} , \,  \Longrightarrow \, \mathbf{x} = \mathbf{A}^{-1} \mathbf{y} ,
+\end{equation}
+and then, we replace $\mathbf{x}$ with $\mathbf{A}^{-1}\mathbf{y}$ in $f(\mathbf{x})$:
+\begin{equation}
+    \begin{aligned}
+        f 
+        & = D \, \mathbf{exp}\left(-\frac{1}{2}(\mathbf{x}-\mathbf{\mu})^T \mathbf{C}^{-1} (\mathbf{x}-\mathbf{\mu}) \right) \\
+        & = D \, \mathbf{exp}\left(-\frac{1}{2}(\mathbf{A}^{-1}\mathbf{y}-\mathbf{\mu})^T 
+        \mathbf{C}^{-1} (\mathbf{A}^{-1}\mathbf{y}-\mathbf{\mu})\right) \\
+        & = D \, \mathbf{exp}\left(-\frac{1}{2}(\mathbf{A}^{-1}\mathbf{y}-\mathbf{A}^{-1}\mathbf{A\mu})^T 
+        \mathbf{C}^{-1} (\mathbf{A}^{-1}\mathbf{y}-\mathbf{A}^{-1}\mathbf{A\mu})\right) \\
+        & = D \, \mathbf{exp}\left(-\frac{1}{2}(\mathbf{y}-\mathbf{A\mu})^T(\mathbf{A}^T)^{-1}\mathbf{C}^{-1}
+        \mathbf{A}^{-1}(\mathbf{y}-\mathbf{A\mu})\right) \\
+        & = D \, \mathbf{exp}\left(-\frac{1}{2}(\mathbf{y}-\mathbf{A\mu})^T(\mathbf{ACA}^T)^{-1}
+        (\mathbf{y} - \mathbf{A\mu})\right)
+    \end{aligned} .
+\end{equation}
+It's obvious that the covariance matrix of $\mathbf{y}$ is $\mathbf{ACA}^T$
+
 \end{homeworkProblem}
+
+\pagebreak
 
 \begin{homeworkProblem}[9]
 Using MATLAB, repeat the following experiment 1000 times. Generate five exponentially distributed 
 random numbers from the exponential probability density function (B.10) with means $\mu = 1/\lambda = 10$. 
-You may find the library function \textbf{exprand} to be useful here. Use (B.74) to calculate a 95\% 
+You may find the library function \textbf{exprnd} to be useful here. Use (B.74) to calculate a 95\% 
 confidence interval for the 1000 mean determinations. How many times out of the 1000 experiments did 
 the 95\% confidence interval cover the expected value of 10? What happens if you instead generate 50 
 exponentially distributed random numbers at time? Discuss your results. 
 
 \solution
+
 
 \end{homeworkProblem}
 
@@ -407,6 +519,43 @@ What are the critical points of $f$? Which of these are minima and maxima of $f$
 
 \solution
 
+\begin{equation}
+    \begin{aligned}
+        \mathbf{\nabla} f(\mathbf{x}) 
+        & = \left[\begin{matrix} \frac{\partial f}{\partial x_1} \\ \frac{\partial f}{\partial x_2} \end{matrix}\right] \\ 
+        & = \left[\begin{matrix}
+            2x_1 x_2^2 - 2x_2^2 - 6x_1 x_2 + 12 x_2 \\ 2x_1^2 x_2 - 4x_1 x_2 + 2x_2 - 3x_1^2 + 12x_1 - 12
+        \end{matrix}\right] .
+    \end{aligned}
+\end{equation}
+And 
+\begin{equation}
+    \begin{aligned}
+        \mathbf{H}(f(\mathbf{x}))
+        & = \left[\begin{matrix}
+            \frac{\partial^2 f}{\partial x_1^2} & \frac{\partial^2 f}{\partial x_1 \partial x_2} \\
+            \frac{\partial^2 f}{\partial x_2 \partial x_1} & \frac{\partial^2 f}{\partial x_2^2}
+        \end{matrix}\right] \\
+        & = \left[\begin{matrix}
+            2x_2^2 - 6x_2 & 4x_1 x_2 - 4x_2 - 6x_1 +12 \\
+            4x_1 x_2 -4x_2 - 6x_1 + 12 & 2x_1^2 - 4x_1 + 2
+        \end{matrix}\right] .
+    \end{aligned}
+\end{equation}
+
+A point $\mathbf{x}^*$ is a critical point when $\mathbf{\nabla} f(\mathbf{x}^*) = \mathbf{0}$, 
+\begin{equation}
+    \mathbf{\nabla} f(\mathbf{x}) 
+    = \left[\begin{matrix}
+        2x_1 x_2^2 - 2x_2^2 - 6x_1 x_2 + 12 x_2 \\ 2x_1^2 x_2 - 4x_1 x_2 + 2x_2 - 3x_1^2 + 12x_1 - 12
+    \end{matrix}\right] = \left[\begin{matrix} 0 \\ 0 \end{matrix}\right] .
+\end{equation}
+Solving the function, we can get \textbf{2} critical points: 
+\begin{equation}
+    \mathbf{x}^* = (x_1, x_2) : (0, 6), (2, 0) .
+\end{equation}
+$(0, 6)$ is minima of $f$, and $f$ doesn't exist maxima or its maxima is a infinite value.
+
 \end{homeworkProblem}
 
 \begin{homeworkProblem}[2]
@@ -424,6 +573,32 @@ is near the point
 \end{equation}
 
 \solution
+
+\begin{equation}
+    \begin{aligned}
+    & \mathbf{\nabla} f(\mathbf{x}) = \left[\begin{matrix}
+        -2(x_1 + x_2) e^{-(x_1 + x_2)^2} \\ -2(x_1 + x_2) e^{-(x_1 + x_2)^2}
+    \end{matrix}\right] , \\
+    & \mathbf{H}(f(\mathbf{x})) =  \left[\begin{matrix}
+        -2(1-2(x_1+x_2)^2)e^{-(x_1 + x_2)^2} & -2(1-2(x_1+x_2)^2)e^{-(x_1 + x_2)^2} \\
+        -2(1-2(x_1+x_2)^2)e^{-(x_1 + x_2)^2} & -2(1-2(x_1+x_2)^2)e^{-(x_1 + x_2)^2}
+    \end{matrix}\right] , \\
+    & f(\mathbf{x} + \Delta\mathbf{x}) 
+        = f(\mathbf{x}) + \nabla f(\mathbf{x})^T \Delta\mathbf{x} + 
+            \frac{1}{2}\Delta\mathbf{x}^T\mathbf{H}(f(\mathbf{x}))\Delta\mathbf{x} + {o}^n .
+    \end{aligned}
+\end{equation}
+
+Because $\mathbf{x} = \left[ \begin{matrix} 2 \\ 3 \end{matrix} \right]$, so: 
+\begin{equation}
+    \begin{aligned}
+    f(\mathbf{x} + \Delta\mathbf{x}) & = e^{-25} + \left[-10e^{-25}, -10e^{-25}\right]\Delta\mathbf{x} + 
+    \frac{1}{2}\Delta\mathbf{x}^T \left[\begin{matrix}
+        98e^{-25} & 98e^{-25} \\ 98e^{-25} & 98e^{-25}
+    \end{matrix}\right]\Delta\mathbf{x} + o^n
+    \end{aligned}
+\end{equation}
+
 
 \end{homeworkProblem}
 
