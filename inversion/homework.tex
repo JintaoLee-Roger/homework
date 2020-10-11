@@ -9,25 +9,25 @@
 \usepackage[plain]{algorithm}
 \usepackage{algpseudocode}
 \usepackage{color}
-% \usepackage{listings}
-% \usepackage{fontspec}
+\usepackage{listings}
+\usepackage{fontspec}
 
-% \newfontfamily\menlo{Consolas}
-% \lstset{
-%     columns=fixed,       
-%     numbers=left,                                        % 在左侧显示行号
-%     numberstyle=\tiny\color{gray},                       % 设定行号格式
-%     frame=none,                                          % 不显示背景边框
-%     backgroundcolor=\color[RGB]{245,245,244},            % 设定背景颜色
-%     keywordstyle=\color[RGB]{40,40,255},                 % 设定关键字颜色
-%     numberstyle=\footnotesize\color{darkgray},           
-%     commentstyle=\it\color[RGB]{0,96,96},                % 设置代码注释的格式
-%     stringstyle=\rmfamily\slshape\color[RGB]{128,0,0},   % 设置字符串格式
-%     showstringspaces=true,                              % 不显示字符串中的空格
-%     numberstyle=\small\menlo,
-%     basicstyle=\small\menlo,
-%     breaklines=true,
-% }
+\newfontfamily\menlo{Menlo}
+\lstset{
+    columns=fixed,       
+    numbers=left,                                        % 在左侧显示行号
+    numberstyle=\tiny\color{gray},                       % 设定行号格式
+    frame=none,                                          % 不显示背景边框
+    backgroundcolor=\color[RGB]{245,245,244},            % 设定背景颜色
+    keywordstyle=\color[RGB]{40,40,255},                 % 设定关键字颜色
+    numberstyle=\footnotesize\color{darkgray},           
+    commentstyle=\it\color[RGB]{0,96,96},                % 设置代码注释的格式
+    stringstyle=\rmfamily\slshape\color[RGB]{128,0,0},   % 设置字符串格式
+    showstringspaces=true,                              % 不显示字符串中的空格
+    numberstyle=\small\menlo,
+    basicstyle=\small\menlo,
+    breaklines=true,
+}
 
 % \lstset{
 %     language=Octave,                % the language of the code
@@ -549,50 +549,52 @@ exponentially distributed random numbers at time? Discuss your results.
 
 Matlab code  
 
-% \begin{lstlisting}[language={matlab}]
-% clear all;
+\begin{lstlisting}[language={matlab}]
+clear all;
 
-% NumExperiment = 1000;
-% countIn = 0;
-% testOfNum = 10;
+NumE = 1000;
+countIn = 0;
+testOfNum = 10;
 
-% mu = 10;
-% nNum = 5;
-% lambda = 0.1;
-% tConst = 2.262;
+mu = 10;
+nNum = 5;
+lmd = 0.1;
+tConst = 2.262;
 
-% saveRes = zeros(NumExperiment,nNum);
+saveRes = zeros(NumE,nNum);
 
-% for ind=1:NumExperiment
-%     R = exprnd(mu,1,nNum);
-%     saveRes(ind,:) = R;
-%     meanR = mean(R);
-%     sR = sqrt(sum((R-meanR).^2)/(nNum-1));
-%     sec2 = tConst*sR/sqrt(nNum);
-%     interL = meanR-sec2;
-%     interR = meanR+sec2;
-%     disp(["Epoch ",int2str(ind),": [",num2str(interL),", ",num2str(interR),"]"]);
-%     if testOfNum>=interL & testOfNum<=interR
-%         countIn = countIn+1;
-%     end
-% end
+for ind=1:NumE
+    R = exprnd(mu,1,nNum);
+    saveRes(ind,:) = R;
+    meanR = mean(R);
+    sR = sqrt(sum((R-meanR).^2)/(nNum-1));
+    sec2 = tConst*sR/sqrt(nNum);
+    interL = meanR-sec2;
+    interR = meanR+sec2;
+    disp(["Epoch ",int2str(ind),": [",num2str(interL),", ",num2str(interR),"]"]);
+    if testOfNum>=interL & testOfNum<=interR
+        countIn = countIn+1;
+    end
+end
 
-% % calculate the accuracy
-% in2all = countIn/NumExperiment;
-% str = sprintf("countIn: %d; countAll: %d; ratio: %.5f", countIn, NumExperiment, in2all);
-% disp(str)
+% accuracy
+in2all = countIn/NumE;
+countIn
+NumE
+in2all
+disp(str)
 
-% % show Q-Q plot
-% pd = makedist("Exponential");
-% % pd = makedist("Normal");
-% qqplot(saveRes(:),pd)
-% title([int2str(nNum),"Q-Q plot"]);
+\end{lstlisting}
 
-% \end{lstlisting}
-
-
+(1) About 847 times. \\
+(2) 959 times  out of the 1000 experiments did the 95\% confidence interval cover the expected value of 10 
+when I instead generate 50 exponentially distributed random numbers at time. \\
+(3) The random numbers under 50 samplings is closer to the exponential distribution than that under 5 samplings.
+\textbf{Long live understanding!}
 
 \end{homeworkProblem}
+
+\pagebreak
 
 \begin{center}
     \section{Appendix C}
@@ -645,33 +647,17 @@ Solving the function, we can get \textbf{2} critical points:
     \mathbf{x}^* = (x_1, x_2) : (0, 6), (2, 0) .
 \end{equation}
 
-When point is $(2, 0)$, 
-\begin{equation}
-    \begin{aligned}
-    & \textit{det}(\lambda \mathbf{I} - \mathbf{H}(f(\mathbf{x}))) = \left\vert
-    \begin{matrix}
-        \lambda & 0 \\
-        0 & \lambda-2
-    \end{matrix} \right\vert = 0 \\
-    & \Longrightarrow  \lambda_1 = 0, \lambda_2 = 2
-    \end{aligned}
-\end{equation}
-
-When point is $(0, 6)$, 
-\begin{equation}
-    \begin{aligned}
-    & \textit{det}(\lambda \mathbf{I} - \mathbf{H}(f(\mathbf{x}))) = \left\vert
-    \begin{matrix}
-        \lambda - 36 & -12 \\
-        -12 & \lambda-2
-    \end{matrix} \right\vert = 0 \\
-    & \Longrightarrow  \lambda_1 = 19+\sqrt{433}, \lambda_2 = 19-\sqrt{433}
-    \end{aligned}
-\end{equation}
-
-$(0, 6)$ is minima of $f$, and $f$ doesn't exist maxima or its maxima is a infinite value.
+As the bottom figure shown (fig \ref{fig:apc1}), $(0, 6)$ is minima of $f$, $f(0,6) = -30$, and $f$ doesn't exist maxima or its maxima is a infinite value.
+\begin{figure}
+    \centering
+    \includegraphics[width=5in, keepaspectratio]{ap_c.pdf}\\
+    \caption{a function f graph of Appendix C exercise 1}
+    \label{fig:apc1}
+\end{figure}
 
 \end{homeworkProblem}
+
+\pagebreak
 
 \begin{homeworkProblem}[2]
 Find a Taylor's series approximation for $f(\mathbf{x} + \Delta\mathbf{x})$, where
