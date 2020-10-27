@@ -1,5 +1,6 @@
 \documentclass{article}
 
+\usepackage[UTF8, scheme = plain]{ctex}
 \usepackage{fancyhdr}
 \usepackage{extramarks}
 \usepackage{amsmath}
@@ -12,7 +13,7 @@
 \usepackage{listings}
 \usepackage{fontspec}
 
-\newfontfamily\menlo{Menlo}
+\newfontfamily\menlo{Consolas}
 \lstset{
     columns=fixed,       
     numbers=left,                                        % 在左侧显示行号
@@ -209,7 +210,10 @@
 
 \end{titlepage}
 
-\textbf{如果用 mac 自带的pdf阅读器出现乱码的情况，请用 Adobe 或者 福昕PDF 打开}
+\begin{center}
+    \section{如果用 mac 自带的pdf阅读器出现乱码的情况，请用 Adobe 或者 福昕PDF 打开}
+\end{center}
+% \section{\textbf{如果用 mac 自带的pdf阅读器出现乱码的情况，请用 Adobe 或者 福昕PDF 打开}}
 
 \textbf{matlab code}
 \begin{lstlisting}[language={matlab}]
