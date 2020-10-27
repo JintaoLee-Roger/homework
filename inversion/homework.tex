@@ -554,7 +554,7 @@ clear all;
 
 NumE = 1000;
 countIn = 0;
-testOfNum = 10;
+tm = 10;
 
 mu = 10;
 nNum = 5;
@@ -569,10 +569,9 @@ for ind=1:NumE
     meanR = mean(R);
     sR = sqrt(sum((R-meanR).^2)/(nNum-1));
     sec2 = tConst*sR/sqrt(nNum);
-    interL = meanR-sec2;
-    interR = meanR+sec2;
-    disp(["Epoch ",int2str(ind),": [",num2str(interL),", ",num2str(interR),"]"]);
-    if testOfNum>=interL & testOfNum<=interR
+    iL = meanR-sec2;
+    iR = meanR+sec2;
+    if tm>=iL & tm<=iR
         countIn = countIn+1;
     end
 end
