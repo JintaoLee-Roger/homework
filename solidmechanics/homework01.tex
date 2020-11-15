@@ -13,8 +13,8 @@
 \usepackage{listings}
 \usepackage{fontspec}
 
-\newfontfamily\menlo{Menlo}
-% \newfontfamily\menlo{Consolas}
+% \newfontfamily\menlo{Menlo}
+\newfontfamily\menlo{Consolas}
 \lstset{
     columns=fixed,       
     numbers=left,                                        % 在左侧显示行号
@@ -208,7 +208,7 @@
 \large \hmwkAuthoremail
 \vfill
 % Bottom of the page
-{\large \today}
+{\large November 15, 2020}
 
 \end{center}
 
@@ -223,7 +223,7 @@
 \begin{figure}[htb]
     \centering
     \includegraphics[width=6in, keepaspectratio]{hw1/prob.png}
-    \label{fig:hw3e1a}
+    \label{fig:pro}
 \end{figure}
 
 步骤：
@@ -244,7 +244,149 @@
 
 \solution
 
+\subsubsection{1. 求出流函数的常数，由此可知速度分布和压强分布}
+参考书籍 \textit{Geodynamics}，图中的拐角流函数可以写成以下形式：
+\begin{equation}
+    \psi=(A x+B y)+(C x+D y) \arctan \frac{y}{x} .
+\end{equation}
+其速度为：
+\begin{equation}
+    u= - \frac{\partial \psi}{\partial y}  = -B-D \arctan \frac{y}{x}+(C x+D y)\left(\frac{-x}{x^{2}+y^{2}}\right)
+\end{equation}
 
+\begin{equation}
+    v= \frac{\partial \psi}{\partial x} = A+C \arctan \frac{y}{x}+(C x+D y)\left(\frac{-y}{x^{2}+y^{2}}\right)
+\end{equation}
+
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=6in, keepaspectratio]{hw1/fig1.pdf}
+    \caption{示意图}
+    \label{fig:fig1}
+\end{figure}
+
+建立坐标如图~\ref{fig:fig1} 所示，边界条件：
+对于地幔楔上覆板块部分，在 $y = 0, x > 0$ 处，有 $u = v = 0$，代入方程中得到： 
+\begin{equation}
+    B = -C, \  A = 0
+\end{equation}
+在 $y = x\tan\theta$ 处，有 
+$u = U\cos\theta = \frac{\sqrt{3}}{2} U, v = U\sin\theta = \frac{1}{2} U$，
+代入方程中得到
+\begin{equation}
+    \begin{aligned}
+    -B - \frac{3}{4}C - (\frac{\pi}{6} + \frac{\sqrt{3}}{4})D = \frac{\sqrt{3}}{2}U ,\\
+    A + (\frac{\pi}{6} - \frac{\sqrt{3}}{4})C - \frac{1}{4}D = \frac{1}{2}U .
+    \end{aligned}
+\end{equation}
+将这两处的边界条件结合可得：
+\begin{equation}
+    \begin{aligned}
+        & A = 0 , \\
+        & B = -C , \\
+        & \frac{1}{4}C - (\frac{\pi}{6} + \frac{\sqrt{3}}{4})D = \frac{\sqrt{3}}{2}U, \\
+        & (\frac{\pi}{6} - \frac{\sqrt{3}}{4})C - \frac{1}{4}D = \frac{1}{2}U .
+    \end{aligned}
+\end{equation}
+
+代入$U = 5 \ cm/year$， 可以解改方程组得到上覆板块的常数A1, B1, C1, D1。 \\
+
+对于下冲板块部分，在 $y = 0, x > 0$ 处，有 $u = U, v = 0$，代入方程中得到：
+\begin{equation}
+    \begin{aligned}
+    -B - C - \pi D = U, \\
+    A + \pi C = 0
+    \end{aligned}
+\end{equation}
+在 $y = \tan\theta x $ 处， 有 
+$u = U\cos\theta = \frac{\sqrt{3}}{2} U, v = U\sin\theta = \frac{1}{2} U$，
+代入方程中得到
+\begin{equation}
+    \begin{aligned}
+    -B - \frac{3}{4}C - (\frac{\pi}{6} + \frac{\sqrt{3}}{4})D = \frac{\sqrt{3}}{2}U ,\\
+    A + (\frac{\pi}{6} - \frac{\sqrt{3}}{4})C - \frac{1}{4}D = \frac{1}{2}U .
+    \end{aligned}
+\end{equation}
+将这两处的边界条件结合可得：
+\begin{equation}
+    \begin{aligned}
+        & A = -\pi C , \\
+        & B = -C - \pi D - U , \\
+        & \frac{1}{4}C - (\frac{\sqrt{3}}{4} - \frac{5\pi}{6})D = (\frac{\sqrt{3}}{2}-1)U, \\
+        & -(\frac{\sqrt{3}}{4} + \frac{5\pi}{6})C - \frac{1}{4}D = \frac{1}{2}U .
+    \end{aligned}
+\end{equation}
+
+代入$U = 5 \ cm/year$， 可以解改方程组得到下冲板块的常数A2, B2, C2, D2。\\
+
+由此，两部分的流函数的常数以求出，参考书籍中的速度和压强公式可求出速度和压强分布：
+\begin{equation}
+    u=-B-D \arctan \frac{y}{x}+(C x+D y)\left(\frac{-x}{x^{2}+y^{2}}\right)
+\end{equation}
+\begin{equation}
+    v=A+C \arctan \frac{y}{x}+(C x+D y)\left(\frac{-y}{x^{2}+y^{2}}\right)
+\end{equation}
+\begin{equation}
+    P=\frac{-2 \mu(C x+D y)}{\left(x^{2}+y^{2}\right)}
+\end{equation}
+其中$\mu = 10^{20} \ Pa/s$是粘滞系数。
+
+\subsubsection{2. 求偏应力张量的分量}
+对于二维粘滞系数为常数的牛顿流体，其应力偏张量分量为：
+\begin{equation}
+    \begin{aligned}
+    \tau_{x x} &=2 \mu \frac{\partial u}{\partial x} \\
+    \tau_{y y} &=2 \mu \frac{\partial v}{\partial y} \\
+    \tau_{y x} &=\tau_{x y}=\mu\left(\frac{\partial u}{\partial y}+\frac{\partial v}{\partial x}\right)
+    \end{aligned}
+\end{equation}
+
+\subsubsection{3. 求应力分布}
+
+其主应力为 $\sigma_0 = P$，所以其应力张量分量为：
+\begin{equation}
+    \begin{aligned}
+    \sigma_{x x} &=P-\tau_{x x}=P-2 \mu \frac{\partial u}{\partial x} \\
+    \sigma_{y y} &=P-\tau_{y y}=P-2 \mu \frac{\partial v}{\partial y} \\
+    \sigma_{x y} &= \sigma_{y x} = \tau_{y x} = \mu\left(\frac{\partial u}{\partial y}+\frac{\partial v}{\partial x}\right)
+    \end{aligned}
+\end{equation}
+
+最大、最小主应力为：
+\begin{equation}
+    \left\{ \begin{matrix}
+        \sigma_1 \\ \sigma_2
+    \end{matrix} \right\} = \frac{\sigma_{xx} + \sigma_{yy}}{2} \pm 
+    \sqrt{(\frac{\sigma_{xx}-\sigma_{yy}}{2})^2 + \sigma_{xy}^2}
+\end{equation}
+
+最大剪应力为：
+\begin{equation}
+    \tau_{max} = \pm (\frac{\sigma_1 - \sigma_2}{2})
+\end{equation}
+
+方向夹角：
+\begin{equation}
+    \alpha = \frac{1}{2} \arctan (\frac{\sigma_{yy} - \sigma_{xx}}{2\sigma_{xy}})
+\end{equation}
+
+最大主应力与x轴夹角为 $\alpha$，最小主应力与x轴夹角为 $\frac{\pi}{2} - \alpha$，
+剪应力方向为 $\frac{\pi}{4} - \alpha$
+
+\subsubsection{4. 结果}
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=4in, keepaspectratio]{hw1/result1.eps}
+    \label{fig:fig1}
+\end{figure}
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=4in, keepaspectratio]{hw1/result2.eps}
+    \label{fig:fig1}
+\end{figure}
+
+\subsubsection{5. Code}
+见附件
 
 \end{homeworkProblem}
 
