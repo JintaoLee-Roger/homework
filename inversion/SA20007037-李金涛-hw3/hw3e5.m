@@ -1,3 +1,6 @@
+% copyright
+% author: Jintao Li
+
 clear;clc;close all;
 addpath("fig2svg")
 

@@ -12,8 +12,9 @@
 \usepackage{listings}
 \usepackage{fontspec}
 
+\setmainfont{BemboStd}
+\setmonofont{Menlo}
 \newfontfamily\menlo{Menlo}
-% \newfontfamily\menlo{Consolas}
 \lstset{
     columns=fixed,       
     numbers=left,                                        % 在左侧显示行号
@@ -22,7 +23,7 @@
     backgroundcolor=\color[RGB]{245,245,244},            % 设定背景颜色
     keywordstyle=\color[RGB]{40,40,255},                 % 设定关键字颜色
     numberstyle=\footnotesize\color{darkgray},           
-    commentstyle=\it\color[RGB]{0,96,96},                % 设置代码注释的格式
+    commentstyle=\small\menlo\color[RGB]{0,96,96},                % 设置代码注释的格式
     stringstyle=\rmfamily\slshape\color[RGB]{128,0,0},   % 设置字符串格式
     showstringspaces=true,                              % 不显示字符串中的空格
     numberstyle=\small\menlo,
@@ -334,6 +335,9 @@ So,
     \end{matrix} \right]
 \end{equation}
 
+The two parameters are highly dependent, and the major axis of error ellipse is large, 
+i.e. elliptic path is a likely linear shape, see the follow problem.
+
 \textbf{matlab code}
 \begin{lstlisting}[language={matlab}]
 %% 1-b
@@ -476,6 +480,10 @@ Are your \textit{p}-value and Monte Carlo $\chi^2$ distribution consistent
 with the theoretical modeling and the data set? If not, explain what is wrong.
 
 \solution
+
+As the figure shown, the Monte Carlo results are not consistent with the theoretical
+results. Because the residual is larger than the $\sigma$.
+
 \textbf{matlab code}
 \begin{lstlisting}[language={matlab}]
 %% 1-f
@@ -496,6 +504,9 @@ predictions from your model relative to the true data and compare with (a).
 \solution
 
 We set the iteration tolerance $\tau = 0.0001$ and $\epsilon = 0.0001$.
+And compare with (a), the L1 solution is better than L2 solution, because 
+there is a outlier, i.e. the last point. L1 solution is more stable than L2 
+solution.
 
 \textbf{matlab code: create IRLS.m, which performs IRLS.}
 \begin{lstlisting}[language={matlab}]
@@ -550,13 +561,14 @@ legend(["data", "L2 solution", "IRLS"], "Location", "southeast")
 
 The comparision:
 
-\begin{figure}[htb]
+\begin{figure}[!htb]
     \centering
     \includegraphics[width=6in, keepaspectratio]{hw3/hw3e1g.pdf}
     \label{fig:hw3e1g}
 \end{figure}
 
 
+\pagebreak
 
 \part
 
@@ -606,6 +618,7 @@ measure, can you make a case that any of the data points are statistical outlier
 
 \solution
 
+The point (26.6667, 8.1841) is a outlier. It is obvious in the figure.
 
 
 
@@ -661,10 +674,7 @@ its derivative is equal to 0, i.e.
     \begin{aligned}
     & F = (\mb{Gm}-\mb{d})^T\mb{C}_D^{-1}(\mb{Gm}-\mb{d}) \\
     & \frac{\partial F}{\partial \mb{m}} = 0 \\
-    \Rightarrow & \mb{G}^T \mb{C}_D^{-1} (\mb{Gm}-\mb{d}) + 
-    (\mb{Gm}-\mb{d})^T \mb{C}_D^{-1} \mb{G} = 0 \\
-    \Rightarrow & \mb{G}^T \mb{C}_D^{-1} (\mb{Gm}-\mb{d}) = 
-    -(\mb{G}^T \mb{C}_D^{-1} (\mb{Gm}-\mb{d}))^T \\
+    \Rightarrow & 2\mb{G}^T \mb{C}_D^{-1} (\mb{Gm}-\mb{d}) = 0 \\
     \Rightarrow & \mb{G}^T \mb{C}_D^{-1} (\mb{Gm}-\mb{d}) = 0 \\
                         i.e. \\
     & \mb{G}^T \mb{C}_D^{-1} \mb{Gm} = \mb{G}^T \mb{C}_D^{-1} \mb{d}
@@ -731,6 +741,19 @@ where $\mb{R}$ is the Cholesky factor of $\mb{C}_D^{-1}$.
 
 \solution
 
+Because $\mb{R}$ is the Cholesky factor of $\mb{C}_D^{-1}$, so 
+\begin{equation}
+    \mb{C}_D^{-1} = \mb{RR}^* .
+\end{equation}
+$\mb{C}_D^{-1}$ and $\mb{C}_D^{-\frac{1}{2}}$ are symmetric matrix,  and
+$(\mb{C}_D^{-1})^T = \mb{C}_D^{-1}$ and 
+$(\mb{C}_D^{-\frac{1}{2}})^T = \mb{C}_D^{-\frac{1}{2}}$, so 
+\begin{equation}
+    \mb{R} = \mb{C}_D^{-\frac{1}{2}} .
+\end{equation}
+
+So far, the problem is equivalent to (c).
+
 
 
 \end{homeworkProblem}
@@ -751,6 +774,11 @@ regression. Clearly, the correct solution has $a_1 = 1$, and all other $a_i = 0$
 Explain why your answer differs.
 
 \solution
+The low-order parameters ($a_0, a_1, ..., a_8$) are fitted well, while high-order 
+parameters are fitted bad, and the residuals are large. Because the condition number
+$(\mb{G}^T\mb{G})^{-1}\mb{G}^T$ is too large to obtain a stable result.
+
+
 \textbf{matlab code}
 \begin{lstlisting}[language={matlab}]
 clear;clc;close all;
@@ -763,7 +791,7 @@ for i=1:20
     G(:, i) = x.^(i-1);
 end
 
-m = G \ y;
+m = inv(G'*G)*G'*y;
 m_true = zeros(20, 1);
 m_true(2) = 1;
 y_pre = G*m;
