@@ -8,6 +8,7 @@
 \usepackage{tikz}
 \usepackage[plain]{algorithm}
 \usepackage{algpseudocode}
+\usepackage{float}
 \usepackage{color}
 \usepackage{listings}
 \usepackage{fontspec}
@@ -233,18 +234,112 @@ Are any block values recovered exactly? If so, does this imply perfect
 resolution for these model parameters?
 
 \solution
+The true model (Figure~\ref{fig:hw4e21}a, reshape result):
+\begin{equation}
+    \mb{m}_{true} = \mt{-1 \\ 1 \\ -1 \\ 1 \\ -1 \\ 1 \\ -1 \\ 1 \\ -1},
+\end{equation}
+
+and 
+\begin{equation}
+    \mb{G} = 
+        \left[\begin{array}{ccccccccc}
+        1 & 0 & 0 & 1 & 0 & 0 & 1 & 0 & 0 \\
+        0 & 1 & 0 & 0 & 1 & 0 & 0 & 1 & 0 \\
+        0 & 0 & 1 & 0 & 0 & 1 & 0 & 0 & 1 \\
+        1 & 1 & 1 & 0 & 0 & 0 & 0 & 0 & 0 \\
+        0 & 0 & 0 & 1 & 1 & 1 & 0 & 0 & 0 \\
+        0 & 0 & 0 & 0 & 0 & 0 & 1 & 1 & 1 \\
+        \sqrt{2} & 0 & 0 & 0 & \sqrt{2} & 0 & 0 & 0 & \sqrt{2} \\
+        0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & \sqrt{2}
+        \end{array}\right]
+\end{equation}
+
+The generalized inverse solution (Figure~\ref{fig:hw4e21}b, reshape result):
+\begin{equation}
+    \mb{m}_{\dagger} = \mb{G}^{\dagger}\mb{d}_{test} = \mb{G}^{\dagger}\mb{Gm}_{true}
+        = \mt{-1.6667 \\ 1.0000 \\ -0.3333 \\ 1.0000 \\ -0.3333 \\ 0.3333 \\ 
+        -0.3333 \\ 0.3333 \\ -1.0000}
+\end{equation}
+
+As shown in the Figure~\ref{fig:hw4e21}, $m_{1,2}, m_{2,1}, m_{3,3}$ are 
+recovered exactly. But it \textbf{doesn't mean perfect resolution} for these model
+parameters. The model resolution matrix is illustrated in Figure~\ref{fig:hw4e22}.
+This matrix shows \textbf{only $m_{3,3}$} has perfect resolution.
+
+
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=6in, keepaspectratio]{hw4/hw4e24.pdf}
+    \caption{A comparison between the true model (a), and the 
+        generalized inverse solution (b)}
+    \label{fig:hw4e21}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=4in, keepaspectratio]{hw4/hw4e23.pdf}
+    \caption{The model resolution matrix (only the diagonal elements, 
+    reshape)}
+    \label{fig:hw4e22}
+\end{figure}
+
 
 \textbf{matlab code}
 \begin{lstlisting}[language={matlab}]
-clear;clc;close all;
+clear; clc; close all;
 
-a = ones(5, 1)
-% ls tme
+m_true = [-1, 1, -1, 1, -1, 1, -1, 1, -1]';
+G = [1,0,0,1,0,0,1,0,0; 0,1,0,0,1,0,0,1,0; 0,0,1,0,0,1,0,0,1; ...
+     1,1,1,0,0,0,0,0,0; 0,0,0,1,1,1,0,0,0; 0,0,0,0,0,0,1,1,1; ...
+     sqrt(2),0,0,0,sqrt(2),0,0,0,sqrt(2); ...
+     0,0,0,0,0,0,0,0,sqrt(2)];
+ 
+% Forward, i.e. generate synthetic data
+d = G * m_true;
+
+% generalized inverse solution
+diag_s = svd(G);
+m = pinv(G, 0.001) * d;
+
+% comparion between m and m_true
+m = reshape(m, 3, 3)';
+m_true = reshape(m_true, 3, 3)';
+
+% model resolution matrix
+R_m = pinv(G) * G;
+
+% plot
+figure(1)
+imagesc(m)
+xticks([1, 2, 3])
+yticks([1, 2, 3])
+colorbar;
+temp1=caxis;
+title("Generalized inverse solution")
+xlabel("j")
+ylabel("i")
+
+figure(2)
+imagesc(m_true)
+xticks([1, 2, 3])
+yticks([1, 2, 3])
+caxis(temp1)
+colorbar;
+title("The true model")
+xlabel("j")
+ylabel("i")
+
+figure(3)
+imagesc(reshape(diag(R_m), 3,3))
+xticks([1,2,3])
+yticks([1,2,3])
+colorbar;
+title("Model resolution matrix (the diagonal elements)")
 \end{lstlisting}
 
-
-
 \end{homeworkProblem}
+
+\pagebreak
 
 \begin{homeworkProblem}[4]
 A large north-south by east-west–oriented, nearly square plan view, 
@@ -302,11 +397,18 @@ for the 256 block slowness perturbations that fit the data as exactly as possibl
 Perform two inversions in this manner: \\
 1. Use the row and column scans only. \\
 2. Use the complete data set. \\
-For each inversion: \\
+For each inversion: 
 
 \part
 
 Note the rank of your \textbf{G} matrix relating the data and model.
+
+\solution
+
+If use the row and column scans only, \textbf{G} is a 32 by 256 matrix and
+its rank is 31.\\
+If use the complete data set, \textbf{G} is a 94 by 256 matrix and 
+its rank is 87.
 
 \part
 
@@ -315,9 +417,68 @@ and dimensions of the data and model null spaces. Plot and interpret an element
 of each space and contour or otherwise display a nonzero model that fits the
 trivial data set $\mb{Gm} = \mb{d} = \mb{0}$ exactly.
 
+\solution
+
+For the two inversions, the dimensions of model null spaces are 225, 169, 
+respectively, and the dimensions of data null spaces are 1, 7, respectively.
+
+The dimensions of model/data null spaces equal to the dimensions of 
+model/data spaces minus the number of nonzero singulars $p$. Thus, the smaller 
+the dimensions of null spaces, the greater the number of nonzero singulars, 
+the better the generalized inverse solution. 
+
+The Figure~\ref{fig:hw4e4b1} shows all model and data null spaces, and each column represents 
+a null space. And the Figure~\ref{fig:hw4e4b2} shows one null space of the corresponding 
+null spaces of Figure~\ref{fig:hw4e4b1}.
+
+The sum of all elements of a model null space vector is 0.
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=6in, keepaspectratio]{hw4/hw4e4b7.pdf}
+    \caption{The model and data null spaces (a) model null spaces use 
+    row and column scans only,
+    (b) model null spaces use the complete data set,
+    (c) data null space use row and column scans only,
+    (d) model null spaces use the complete data set. }
+    \label{fig:hw4e4b1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=6in, keepaspectratio]{hw4/hw4e4b8.pdf}
+    \caption{One model null space (reshape result) (a)  one model null spaces use 
+    row and column scans only,
+    (b) one model null spaces use the complete data set.}
+    \label{fig:hw4e4b2}
+\end{figure}
+
 \part
 
 Note whether there are any model parameters that have perfect resolution.
+
+\solution
+
+The Figure~\ref{fig:hw4e4e} shows the model resolution matrix 
+(only diagonal elements).
+
+\textbf{1. use the row and column scans only} \\
+As shown in Figure~\ref{fig:hw4e4e}a, there is no model parameter 
+that has perfect resolution.
+
+\textbf{2. use the complete data set} \\
+As shown in Figure~\ref{fig:hw4e4e}b, The model parameters $m_{1,1}$, 
+$m_{1,16}$, $m_{16,1}$, $m_{16,16}$ have perfect resolution.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=6in, keepaspectratio]{hw4/hw4e4e3.pdf}
+    \caption{Two model resolution matrix (only diagonal elements 
+    and reshape them to 16 by 16), (a) use row and column scans only,
+    (b) use the complete data set. }
+    \label{fig:hw4e4e}
+\end{figure}
 
 \part
 
@@ -326,11 +487,28 @@ model, displaying the maximum and minimum slowness perturbations in the
 title of each plot. Interpret any internal structures geometrically and in terms of
 seismic velocity (in m/s).
 
+\solution
+
+The results are illustrated in Figure~\ref{fig:hw4ed3}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=6in, keepaspectratio]{hw4/hw4e4d3.pdf}
+    \caption{ The generalized inverse solution. 
+    (a) use the row and column scans only,
+    (b) use the complete data set. }
+    \label{fig:hw4ed3}
+\end{figure}
+
 \part
 
 Show the model resolution by contouring or otherwise displaying the 256
 diagonal elements of the model resolution matrix, reshaped into an appropriate
 16 by 16 grid.
+
+\solution 
+
+The result is illustrated in Figure~\ref{fig:hw4e4e}.
 
 \part
 
@@ -339,6 +517,21 @@ demonstrate that very
 rough models exist that will fit any data set just as well as a generalized inverse
 model. Show one such wild model.
 
+\solution
+
+A basis of model null spaces is satisfied it. We set such basis model as $m_0$,
+and:
+\begin{equation}
+    \begin{aligned}
+    & \mb{G}(\mb{m+m_0}) = d_2, \\
+    \Rightarrow & d_2-d = 0, \\
+    \Rightarrow & \mb{Gm} = 0.
+    \end{aligned}
+\end{equation}
+
+One example: the models shown in the Figure~\ref{fig:hw4e4b2}.
+
+see code (\%\% the 4.f problem)
 
 \end{homeworkProblem}
 
