@@ -1,0 +1,468 @@
+\documentclass{article}
+
+\usepackage[UTF8, scheme = plain]{ctex}
+\usepackage{fancyhdr}
+\usepackage{extramarks}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{tikz}
+\usepackage[plain]{algorithm}
+\usepackage{algpseudocode}
+\usepackage{color}
+\usepackage{listings}
+\usepackage{fontspec}
+\usepackage{float}
+
+\newfontfamily\menlo{Menlo}
+% \newfontfamily\menlo{Consolas}
+\lstset{
+    columns=fixed,       
+    numbers=left,                                        % 在左侧显示行号
+    numberstyle=\tiny\color{gray},                       % 设定行号格式
+    frame=none,                                          % 不显示背景边框
+    backgroundcolor=\color[RGB]{245,245,244},            % 设定背景颜色
+    keywordstyle=\color[RGB]{40,40,255},                 % 设定关键字颜色
+    numberstyle=\footnotesize\color{darkgray},           
+    commentstyle=\it\color[RGB]{0,96,96},                % 设置代码注释的格式
+    stringstyle=\rmfamily\slshape\color[RGB]{128,0,0},   % 设置字符串格式
+    showstringspaces=true,                              % 不显示字符串中的空格
+    numberstyle=\small\menlo,
+    basicstyle=\small\menlo,
+    breaklines=true,
+}
+
+% \lstset{
+%     language=Octave,                % the language of the code
+%     basicstyle=\footnotesize,           % the size of the fonts that are used for the code
+%     numbers=left,                   % where to put the line-numbers
+%     numberstyle=\tiny\color{gray},  % the style that is used for the line-numbers
+%     stepnumber=1,                   % the step between two line-numbers. If it's 1, each line 
+%                                     % will be numbered
+%     numbersep=5pt,                  % how far the line-numbers are from the code
+%     backgroundcolor=\color{white},      % choose the background color. You must add \usepackage{color}
+%     showspaces=false,               % show spaces adding particular underscores
+%     showstringspaces=false,         % underline spaces within strings
+%     showtabs=false,                 % show tabs within strings adding particular underscores
+%     frame=single,                   % adds a frame around the code
+%     rulecolor=\color{black},        % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. commens (green here))
+%     tabsize=2,                      % sets default tabsize to 2 spaces
+%     captionpos=b,                   % sets the caption-position to bottom
+%     breaklines=true,                % sets automatic line breaking
+%     breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+%     title=\lstname,                 % show the filename of files included with \lstinputlisting;
+%                                     % also try caption instead of title
+%     keywordstyle=\color{blue},          % keyword style
+%     commentstyle=\color{dkgreen},       % comment style
+%     stringstyle=\color{mauve},         % string literal style
+%     escapeinside={\%*}{*)},            % if you want to add LaTeX within your code
+%     morekeywords={*,...}               % if you want to add more keywords to the set
+% }
+
+\usetikzlibrary{automata,positioning}
+
+%
+% Basic Document Settings
+%
+%%% page layout
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in
+
+\linespread{1.1}    %%% line spacing
+
+\definecolor{ustcblue}{cmyk}{1,0.8,0,0}
+
+\pagestyle{fancy}
+\lhead{\hmwkAuthorName}
+\chead{\hmwkClass\ (\hmwkClassInstructor): \hmwkTitle}
+\rhead{}
+\lfoot{}
+\cfoot{\thepage}
+
+\renewcommand\headrulewidth{0.4pt}
+\renewcommand\footrulewidth{0.4pt}
+
+\setlength\parindent{0pt}
+
+%
+% Create Problem Sections
+%
+
+\newcommand{\enterProblemHeader}[1]{
+    \nobreak\extramarks{}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+}
+
+\newcommand{\exitProblemHeader}[1]{
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \stepcounter{#1}
+    \nobreak\extramarks{Problem \arabic{#1}}{}\nobreak{}
+}
+
+\setcounter{secnumdepth}{0}
+\newcounter{partCounter}
+\newcounter{homeworkProblemCounter}
+\setcounter{homeworkProblemCounter}{1}
+\nobreak\extramarks{Problem \arabic{homeworkProblemCounter}}{}\nobreak{}
+
+%
+% Homework Problem Environment
+%
+% This environment takes an optional argument. When given, it will adjust the
+% problem counter. This is useful for when the problems given for your
+% assignment aren't sequential. See the last 3 problems of this template for an
+% example.
+%
+\newenvironment{homeworkProblem}[1][-1]{
+    \ifnum#1>0
+        \setcounter{homeworkProblemCounter}{#1}
+    \fi
+    \subsection{Exercise \arabic{homeworkProblemCounter}}
+    \setcounter{partCounter}{1}
+    \enterProblemHeader{homeworkProblemCounter}
+}{
+    \exitProblemHeader{homeworkProblemCounter}
+}
+
+%
+% Homework Details
+%   - Title
+%   - Due date
+%   - Class
+%   - Section/Time
+%   - Instructor
+%   - Author
+%
+
+\newcommand{\hmwkTitle}{Homework\ \#1}
+\newcommand{\hmwkDueDate}{\today}
+\newcommand{\hmwkClass}{Geodynamics}
+\newcommand{\hmwkClassInstructor}{Professor W. Len}
+\newcommand{\hmwkAuthorName}{\textbf{Jintao Li}}
+\newcommand{\hmwkAuthorID}{\textbf{SA20007037}}
+\newcommand{\hmwkAuthoremail}{\textbf{E-mail: lijintao@mail.ustc.edu.cn}}
+
+%
+% Title Page
+%
+
+% \title{
+%     \vspace{2in}
+%     \textbf{\hmwkClass:\ \hmwkTitle}\\
+%     \normalsize\vspace{0.2in}\large{\hmwkDueDate}\\
+%     \vspace{0.2in}\large{\textit{\hmwkClassInstructor}}
+%     \vspace{3in}
+% }
+
+% \author{\hmwkAuthorName \\
+% \hmwkAuthorID}
+% \date{}
+
+\renewcommand{\part}[1]{\textbf{ \\ (\alph{partCounter})  }\stepcounter{partCounter} }
+
+%
+% Various Helper Commands
+%
+
+% Useful for algorithms
+\newcommand{\alg}[1]{\textsc{\bfseries \footnotesize #1}}
+
+% For derivatives
+\newcommand{\deriv}[1]{\frac{\mathrm{d}}{\mathrm{d}x} (#1)}
+
+% For partial derivatives
+\newcommand{\pderiv}[2]{\frac{\partial}{\partial #1} (#2)}
+
+% Integral dx
+\newcommand{\dx}{\mathrm{d}x}
+
+% Alias for the Solution section header
+\newcommand{\solution}{\textbf{\large \\ Solution: \\}}
+
+% Probability commands: Expectation, Variance, Covariance, Bias
+\newcommand{\E}{\mathrm{E}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\Bias}{\mathrm{Bias}}
+
+%
+\newcommand{\mb}[1]{\mathbf{#1}}
+
+\begin{document}
+
+\begin{titlepage}
+
+\begin{center}
+
+\textcolor{ustcblue}{\includegraphics[width=0.4\textwidth]{./ustc_logo_fig.pdf} \\ [1cm]}
+% Title
+{ \Huge \bfseries \hmwkClass\ \hmwkTitle}\\[1cm]
+
+\large \textbf{\hmwkClassInstructor} \\ [5cm]
+
+\large \hmwkAuthorName \\ [0.25cm]
+\large \hmwkAuthorID \\ [0.25cm]
+\large \hmwkAuthoremail
+\vfill
+% Bottom of the page
+{\large March 24, 2021}
+
+\end{center}
+
+\end{titlepage}
+
+\begin{center}
+\section{Chapter 1: Plate Tectonics}
+\end{center}
+
+\begin{homeworkProblem}[1]
+Download ETOPO1 topography data, plot globe and regional topography map,
+using a good color scale.
+
+\solution
+
+GMT (version = 6.1.1) has included topography data, so we can use it directly
+without downloading from the website: https://www.ngdc.noaa.gov/mgg/global/global.html.
+But if you want to download the data from offical website, you can do it.
+
+\textbf{bash code}
+\begin{lstlisting}[language={bash}]
+#!/bin/sh
+# set font 
+gmt set FONT_ANNOT_PRIMARY=10
+gmt set FONT_LABEL=14
+
+# globe, using the default cpt (i.e. geo), which is the most beautiful colormap.
+gmt begin globe_relief pdf
+gmt grdimage @earth_relief_03m -JH180/15c -I+d
+gmt colorbar -DJBC+w10c/0.25c+o0.0c/0.3c -Bxa3f+l"Topography/km" -C+Ukm
+gmt end show
+
+# regional, Philippines, Lon: 115-130 E, Lan: 0-22 N
+gmt begin phlippines_relif pdf
+gmt grdimage @earth_relief_15s -R115/130/0/22 -JM15c -I+d -Ba -BNWes
+gmt colorbar -DJBC+w10c/0.25c+o0.0c/0.3c -Bxa3f+l"Topography/km" -C+Ukm
+gmt end show
+
+# if using the topography data downloaded from offical website, uncommit follow code
+# gmt begin globe_relief_offical pdf
+# gmt grdimage ETOPO1_Bed_g_gdal.grd -JH180/15c -I+d -Cgeo
+# gmt colorbar -DJBC+w10c/0.25c+o0.0c/0.3c -Bxa3f+l"Topography/km" -C+Ukm
+# gmt end show
+\end{lstlisting}
+
+% This code can also be found in the attachment "draw_topo.sh".
+
+\textbf{The figures}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=6in, keepaspectratio]{globe_relief.pdf}
+    \label{fig:globe_relief}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=6in, keepaspectratio]{phlippines_relif.pdf}
+    \label{fig:phlippines_relif}
+\end{figure}
+
+\end{homeworkProblem}
+
+\pagebreak
+
+
+\begin{homeworkProblem}[2]
+Download IRIS earthquake data, (for certain time period), plot globe and 
+regional earthquake distribution, including location, magnitude, depth, etc. 
+For those who are interested, also plot source mechanism for typical earthquake (
+i.e. beach ball).
+
+\solution
+
+We can download source mechanism data from the website: https://www.globalcmt.org/CMTsearch.html.
+Due to the large number of earthquakes, we choose globe earthquakes with Mw $\geq$ 6.0,
+date from 2011/01/01 to 2021/01/01 and earthquakes in  Phlippines with 
+Mw $\geq$ 6.0, date from 2011/01/01 to 2021/01/01.
+
+\textbf{bash code}
+\begin{lstlisting}[language={bash}]
+#!/bin/sh
+gmt set FONT_ANNOT_PRIMARY=10
+gmt set FONT_LABEL=12
+
+# globe 
+gmt begin earthquake_globe pdf
+gmt grdimage @earth_relief_03m -I+d -Ba -BNWes
+# generate depth cpt file
+echo 0 purple@30 70 purple@30 > depth.cpt
+echo 70 green@30 300 green@30 >> depth.cpt
+echo 300 red@30 800 red@30 >> depth.cpt
+gmt meca cmt -Sm0.3c -Zdepth.cpt 
+# draw legend (in the bottom)
+( 
+cat << EOF 
+H 10,0 Earthquake Location
+L 6,0 C (2011/01/01-2021/01/01)
+G 0.1c
+L 8,0 C Magnitude(Mw)
+G 0.1c
+N 3
+S 0.1i c 0.11i - black 0.2i 6
+S 0.1i c 0.12i - black 0.2i 7
+S 0.1i c 0.13i - black 0.2i 8
+N 1
+G 0.1c
+L 8,0 C Depth(km)
+G 0.1c
+N 3
+L 7,0 R @;purple;0-70km@;;
+L 7,0 R @;green;70-300km@;;
+L 7,0 R @;red;300-800km@;;
+G 1.0c
+B globe 0.3i 0.08i+ml -Bxa3f+l"Topo(km)" -C+Ukm --FONT_ANNOT_PRIMARY=8p --MAP_FRAME_WIDTH=1p --FONT_LABEL=10p
+EOF
+) > tmp
+gmt legend tmp -F+gazure1@10 -DjBC+w8c+l1.2+o0.0c/-5c -C0.1i/0.1i
+echo 123 33.05 43 3.62 -0.44 -3.18 0.90 2.46 -1.35 24 0 0 > tmp
+echo 126.6 33.05 171 -0.71 -0.26 0.96 0.44 0.81 -0.07 24 0 0 >> tmp
+echo 130.5 33.05 302 0.34 0.16 -0.50 -0.77 -4.57 -1.58 24 0 0 >> tmp    
+gmt meca tmp -Sm0.3c -Zdepth.cpt
+gmt end show
+
+# regional (Phlippines)
+gmt begin earthquake_phlippins pdf
+gmt grdimage @earth_relief_15s -R115/130/0/22 -JM15c -I+d -Ba -BNWes
+# plot beach ball
+gmt meca phili -Sm0.3c -Zdepth.cpt -JM15c 
+# plot survey line (the third question needs this)
+echo 117 6 A > tmp
+echo 129 6 B >> tmp
+gmt plot tmp -W1p,black,-.-
+gmt text tmp -F+f10p -D0c/-0.2c 
+# draw legend (Right Top)
+( 
+cat << EOF 
+H 10,0 Earthquake Location
+L 6,0 C (2011/01/01-2021/01/01)
+G 0.1c
+L 8,0 C Magnitude(Mw)
+G 0.1c
+N 4
+S 0.1i c 0.10i - black 0.2i 5
+S 0.1i c 0.11i - black 0.2i 6
+S 0.1i c 0.12i - black 0.2i 7
+S 0.1i c 0.13i - black 0.2i 8
+N 1
+G 0.1c
+L 8,0 C Depth(km)
+G 0.1c
+N 3
+L 7,0 R @;purple;0-70km@;;
+L 7,0 R @;green;70-300km@;;
+L 7,0 R @;red;300-800km@;;
+N 1
+G 0.1c
+L 8,0 C Survey Line
+G 0.1c
+N 2
+L 7,0 R A(117 6)
+L 7,0 R B(129 6)
+EOF
+) > tmp
+gmt legend tmp -F+gazure1@10 -DjTR+w4c+l1.2 -C0.1i/0.1i
+echo 123 33.05 43 3.62 -0.44 -3.18 0.90 2.46 -1.35 24 0 0 > tmp
+echo 126.6 33.05 171 -0.71 -0.26 0.96 0.44 0.81 -0.07 24 0 0 >> tmp
+echo 130.5 33.05 302 0.34 0.16 -0.50 -0.77 -4.57 -1.58 24 0 0 >> tmp    
+gmt meca tmp -Sm0.3c -Zdepth.cpt
+gmt colorbar -DJBC+w10c/0.25c+o0.0c/0.3c -Bxa3f+l"Topography/km" -C+Ukm
+gmt end show
+\end{lstlisting}
+
+% This code can also be found in the attachment "draw_earthquake.sh".
+
+\textbf{The figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=6in, keepaspectratio]{earthquake_globe.pdf}
+    \label{fig:earthquake_globe}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=6in, keepaspectratio]{earthquake_phlippins.pdf}
+    \label{fig:earthquake_phlippins}
+\end{figure}
+
+    
+\end{homeworkProblem}
+
+\pagebreak
+
+\begin{homeworkProblem}[3]
+Choose certain cross-section of a subducting plate, plot the Benioff zone with 
+earthquake distribution (down to 660 km depth).
+
+\solution
+
+We choos a cross-section from A(117E, 6N) to B(128E, 6N) (see Figure~\ref{fig:earthquake_phlippins}).
+\textbf{bash code}
+\begin{lstlisting}[language={bash}]
+#!/bin/sh
+gmt set FONT_ANNOT_PRIMARY=10
+gmt set FONT_LABEL=12
+
+gmt begin section pdf
+gmt basemap -R0/12/-8000/2000 -JX10c/3c -BWrtb -Bya2000f+l"Elevation (m)"
+# generate depth cpt file
+echo 0 purple@30 70 purple@30 > depth.cpt
+echo 70 green@30 300 green@30 >> depth.cpt
+echo 300 red@30 700 red@30 >> depth.cpt
+
+# commit A and B
+echo 0 2200 A > tmp
+echo 12 2200 B >> tmp
+gmt text tmp -F+f10p+jBC -N -D0c/0.1c
+
+# project
+gmt project -C117/6 -E129/6 -G0.1 | gmt grdtrack -G@earth_relief_03m > tmp
+echo 0 0 > tmp2 
+echo 12 0 >> tmp2
+gmt plot tmp2 -Wblack -Glightblue -L+y-8000
+gmt plot tmp -i2,3 -Wblack -Ggray -L+y-8000
+
+# benioff zone
+gmt basemap -R0/12/0/700 -JX10c/-5c -Bya200f100+l"Focal depth (km)" -Bxa2f1+l"Distance"+u"\260" -BWSrt -Y-5.5c
+echo 5.5 480 Benioff zone | gmt text -F+f14p,5,blue=solid+a50+jBL
+gmt coupe phili -Q -L -Sm0.3c -Aa117/6/129/6/90/300/0/700f -Zdepth.cpt
+( 
+cat << EOF 
+H 8,4 Events (Mw >= 5)
+S 0.1i c 0.20 purple 0.1p,black 0.20i 0-70 km
+S 0.1i c 0.20 green 0.1p,black 0.20i 70-300 km
+S 0.1i c 0.20 red 0.1p,black 0.20i 300-700 km
+EOF
+) > tmp
+gmt legend tmp -DjBR+w1i+l1.5+o0.05i/0.04i -F+g255+p0.25p
+gmt end show
+
+rm *.cpt tmp*
+\end{lstlisting}
+
+% This code can also be found in the attachment "draw_section.sh".
+
+\textbf{The figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=6in, keepaspectratio]{section.pdf}
+    \label{fig:section}
+\end{figure}
+
+
+\end{homeworkProblem}
+
+
+\end{document}
