@@ -16,5 +16,8 @@
 *.blg
 *.bib
 
+geodynamics/hw1/*.pdf
+
+
 .vscode/*
 *.json
