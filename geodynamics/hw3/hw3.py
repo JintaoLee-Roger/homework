@@ -2,18 +2,18 @@ import numpy as np
 import scipy.special as sp
 import matplotlib.pyplot as plt
 
-def uniform_loading(r, x, a, rou_p):
+def uniform_loading(r, x, a, rou_p, l):
     if x <= r:
         kerpa = sp.kerp(a)
-        berx = sp.ber(x)
+        berx = sp.ber(x/l)
         keipa = sp.keip(a)
-        beix = sp.beip(x)
+        beix = sp.beip(x/l)
         w = rou_basalt*uniform_h*(a*kerpa*berx-a*keipa*beix+1)/rou_p
     else:
         berpa = sp.berp(a)
-        kerx = sp.ker(x)
+        kerx = sp.ker(x/l)
         beipa = sp.beip(a)
-        keix = sp.kei(x)
+        keix = sp.kei(x/l)
         w = rou_basalt*uniform_h*(a*berpa*kerx-a*beipa*keix)/rou_p
 
     return w
@@ -27,7 +27,7 @@ def calc():
                 for step in steps:
                     r = A[k]*(10-step)/10
                     a = r/l[i]
-                    w[i,j,k] += uniform_loading(r, x[j], a, rou_prime[i])
+                    w[i,j,k] += uniform_loading(r, x[j], a, rou_prime[i], l[i])
 
     return w
 
