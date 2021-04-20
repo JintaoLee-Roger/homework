@@ -32,10 +32,25 @@ def calc():
     return w
 
 def plot_result():
-    plt.figure()
-    plt.plot(t, w[0,0,:])
-    plt.plot(t, w[0,1,:])
-    plt.plot(t, w[0,2,:])
+    fontdict = {'family' : 'Times New Roman', 'weight' : 'normal', 'size' : 18}
+    fontdict2 = {'family' : 'Times New Roman', 'weight' : 'normal', 'size' : 14}
+    plt.figure(figsize=(13, 8))
+    plt.plot(t, w[0,0,:], c='red', label='thickness=30km, r=150km')
+    plt.plot(t, w[0,1,:], c='green', label='thickness=30km, r=300km')
+    plt.plot(t, w[0,2,:], c='blue', label='thickness=30km, r=450km')
+    plt.plot(t, w[1,0,:], c='red', linestyle='--', label='thickness=50km, r=150km')
+    plt.plot(t, w[1,1,:], c='green', linestyle='--', label='thickness=50km, r=300km')
+    plt.plot(t, w[1,2,:], c='blue', linestyle='--', label='thickness=50km, r=450km')
+    plt.plot(t, w[2,0,:], c='red', linestyle=':', label='thickness=70km, r=150km')
+    plt.plot(t, w[2,1,:], c='green', linestyle=':', label='thickness=70km, r=300km')
+    plt.plot(t, w[2,2,:], c='blue', linestyle=':', label='thickness=70km, r=450km')
+    plt.axis([0, 2.5, -1.8, 0.1])
+    plt.xlabel("Time (Ma)", fontdict=fontdict)
+    plt.ylabel("Combined topography at different location (km)", fontdict=fontdict)
+    plt.xticks(fontproperties='Times New Roman', size=16)
+    plt.yticks(fontproperties='Times New Roman', size=16)
+    plt.legend(prop=fontdict2, loc=1)
+    plt.savefig('result.pdf', bbox_inches='tight',dpi=600,pad_inches=0.0)
     plt.show()
 
 if __name__ == "__main__":
@@ -57,12 +72,11 @@ if __name__ == "__main__":
     rou_prime = rou_mantle + E*th_crust/pow(R, 2)
     x = np.array([150, 300, 450])
     t = np.linspace(0.1, 2, 20)
-    steps = np.linspace(0.005, 2, 400)
-    uniform_h = 0.005
+    steps = np.linspace(0.0005, 2, 4000)
+    uniform_h = 0.0005
     A = v*t
     
-    w = calc()
-    # print(w[0,0,0:5])
+    w = -calc()
     plot_result()
 
 
